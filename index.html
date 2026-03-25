@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Manipur Tourism Redesign — UX Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0e0d0b;--paper:#f6f2eb;--accent:#c4570a;--gold:#e8b84b;
+  --green:#2e6b44;--mid:#6b6358;--light:#e2ddd4;--white:#fff;
+  --serif:'Syne',sans-serif;--sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 4rem;background:var(--paper);border-bottom:1.5px solid var(--ink);}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:800;letter-spacing:-0.02em;text-decoration:none;color:var(--ink);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:0.78rem;font-weight:500;color:var(--mid);text-decoration:none;letter-spacing:0.07em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--accent);}
+
+/* ABOUT */
+.about-section{background:var(--white);padding-top:68px;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;min-height:92vh;}
+.about-left{padding:5rem 4rem;border-right:1.5px solid var(--ink);display:flex;flex-direction:column;justify-content:center;gap:1.75rem;}
+.about-right{padding:5rem 4rem;display:flex;flex-direction:column;justify-content:space-between;gap:3rem;}
+.about-name{font-family:var(--serif);font-size:clamp(2.6rem,3.8vw,4.2rem);font-weight:800;line-height:0.95;letter-spacing:-0.03em;color:var(--ink);}
+.about-name span{color:var(--accent);font-style:italic;font-weight:400;}
+.about-bio{font-size:1rem;font-weight:300;color:var(--mid);line-height:1.9;}
+.about-bio strong{font-weight:500;color:var(--ink);}
+.about-philosophy{border-left:3px solid var(--accent);padding-left:1.25rem;}
+.about-philosophy p{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.45;}
+.about-philosophy span{display:block;font-family:var(--sans);font-size:0.72rem;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:var(--mid);margin-top:0.4rem;}
+.about-scroll{font-size:0.73rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;gap:0.4rem;}
+.about-scroll::after{content:'↓';color:var(--accent);}
+.about-big-text{font-family:var(--serif);font-size:clamp(3.5rem,7vw,7.5rem);font-weight:800;color:var(--light);line-height:0.88;letter-spacing:-0.04em;}
+.about-big-text em{color:var(--accent);font-style:italic;}
+.about-skills-label{font-size:0.72rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--mid);margin-bottom:0.6rem;}
+.about-skills{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.skill-chip{background:var(--paper);border:1.5px solid var(--ink);padding:5px 12px;font-size:0.75rem;font-weight:500;color:var(--ink);letter-spacing:0.02em;}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr 0.9fr;border-bottom:1.5px solid var(--ink);}
+.hero-left{padding:5rem 4rem;display:flex;flex-direction:column;justify-content:center;border-right:1.5px solid var(--ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:1.5rem;}
+.eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,5vw,5.2rem);font-weight:800;line-height:0.95;letter-spacing:-0.03em;}
+.hero-title em{font-style:italic;color:var(--accent);font-weight:400;}
+.hero-desc{margin-top:1.75rem;font-size:1rem;font-weight:300;color:var(--mid);max-width:440px;line-height:1.8;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.75rem;}
+.tag{font-size:0.72rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:5px 12px;border:1.5px solid var(--ink);border-radius:2px;color:var(--ink);}
+.hero-cta{margin-top:2.5rem;display:flex;gap:1rem;align-items:center;}
+.btn-primary{background:var(--ink);color:var(--paper);padding:0.8rem 1.8rem;font-family:var(--sans);font-size:0.88rem;font-weight:500;text-decoration:none;letter-spacing:0.02em;border:1.5px solid var(--ink);transition:all 0.2s;display:inline-block;}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);}
+.btn-ghost{color:var(--ink);font-size:0.88rem;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:0.4rem;border-bottom:1.5px solid var(--ink);padding-bottom:2px;transition:color 0.2s,border-color 0.2s;}
+.btn-ghost:hover{color:var(--accent);border-color:var(--accent);}
+.hero-right{background:var(--ink);display:flex;flex-direction:column;justify-content:flex-end;padding:4rem 3.5rem;position:relative;overflow:hidden;gap:2rem;}
+.hero-bg-word{position:absolute;top:-1rem;left:-1rem;font-family:var(--serif);font-size:16rem;font-weight:800;color:rgba(255,255,255,0.03);line-height:1;pointer-events:none;user-select:none;}
+.hero-quote-block{position:relative;z-index:1;}
+.hq{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--paper);line-height:1.3;margin-bottom:0.6rem;}
+.hq em{color:var(--gold);font-style:italic;}
+.hq-src{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,235,0.4);}
+.hero-problem{position:relative;z-index:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:1.25rem 1.5rem;}
+.hp-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);font-weight:500;margin-bottom:0.5rem;}
+.hp-text{font-size:0.88rem;font-weight:300;color:rgba(246,242,235,0.75);line-height:1.7;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink);}
+.stat-item{padding:2.5rem;border-right:1.5px solid var(--ink);display:flex;flex-direction:column;gap:0.3rem;}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:var(--serif);font-size:2.6rem;font-weight:800;color:var(--ink);line-height:1;}
+.stat-label{font-size:0.75rem;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.06em;}
+
+/* SECTIONS */
+section{border-bottom:1.5px solid var(--ink);}
+.section-inner{padding:5.5rem 4rem;}
+.section-label{font-size:0.72rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
+.section-label::before{content:'';display:block;width:24px;height:1.5px;background:var(--accent);}
+.section-title{font-family:var(--serif);font-size:clamp(1.9rem,3vw,3rem);font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:var(--ink);max-width:700px;}
+
+/* OVERVIEW */
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;}
+.overview-text p{font-size:1rem;color:var(--mid);font-weight:300;line-height:1.85;margin-bottom:1.1rem;}
+.overview-meta{display:flex;flex-direction:column;gap:1.75rem;}
+.meta-item{border-top:1.5px solid var(--ink);padding-top:1rem;}
+.meta-key{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:500;color:var(--mid);margin-bottom:0.35rem;}
+.meta-val{font-size:0.92rem;font-weight:400;color:var(--ink);}
+
+/* RESEARCH */
+.research-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:4rem;}
+.research-card{background:var(--white);border:1.5px solid var(--ink);padding:2rem 1.75rem;position:relative;}
+.research-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.rc-orange::before{background:var(--accent);}
+.rc-gold::before{background:var(--gold);}
+.rc-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:500;color:var(--mid);margin-bottom:0.75rem;}
+.rc-title{font-family:var(--serif);font-size:1.15rem;font-weight:800;color:var(--ink);margin-bottom:0.6rem;}
+.rc-text{font-size:0.88rem;color:var(--mid);font-weight:300;line-height:1.75;}
+.rc-list{list-style:none;margin-top:0.75rem;display:flex;flex-direction:column;gap:0.5rem;}
+.rc-list li{font-size:0.85rem;color:var(--mid);font-weight:300;padding-left:1rem;position:relative;line-height:1.6;}
+.rc-list li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:0.75rem;}
+
+/* AFFINITY */
+.affinity-strip{display:grid;grid-template-columns:repeat(5,1fr);margin-top:4rem;border:1.5px solid var(--ink);}
+.aff-item{padding:1.75rem 1.25rem;border-right:1.5px solid var(--ink);display:flex;flex-direction:column;gap:0.6rem;}
+.aff-item:last-child{border-right:none;}
+.aff-icon{width:36px;height:36px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.aff-title{font-family:var(--serif);font-size:0.95rem;font-weight:700;color:var(--ink);line-height:1.2;}
+.aff-desc{font-size:0.78rem;color:var(--mid);font-weight:300;line-height:1.6;}
+
+/* QUOTES */
+.quotes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.quote-card{background:var(--white);border:1.5px solid var(--ink);padding:1.75rem 1.5rem;display:flex;flex-direction:column;gap:0.75rem;}
+.quote-mark{font-family:var(--serif);font-size:2.5rem;color:var(--light);line-height:0.8;font-weight:800;}
+.quote-text{font-size:0.9rem;color:var(--ink);font-style:italic;font-weight:300;line-height:1.7;}
+.quote-category{font-size:0.68rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;padding:3px 8px;border-radius:2px;width:fit-content;}
+.qc-plan{background:#fff3ea;color:var(--accent);}
+.qc-trust{background:#fdf4e3;color:#8b6000;}
+.qc-visual{background:#eef6f1;color:var(--green);}
+
+/* DECISIONS */
+.decisions-section{background:var(--ink);}
+.decisions-section .section-title,.decisions-section .section-label{color:var(--paper);}
+.decisions-section .section-label{color:rgba(246,242,235,0.45);}
+.decisions-section .section-label::before{background:var(--gold);}
+.decisions-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:4rem;border:1.5px solid rgba(246,242,235,0.12);}
+.decision-item{padding:2rem 1.5rem;border-right:1px solid rgba(246,242,235,0.1);}
+.decision-item:last-child{border-right:none;}
+.di-insight{font-size:0.78rem;font-weight:300;color:rgba(246,242,235,0.45);line-height:1.6;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid rgba(246,242,235,0.1);}
+.di-arrow{font-size:1.2rem;color:var(--gold);margin-bottom:0.6rem;display:block;}
+.di-decision{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--paper);line-height:1.3;}
+
+/* IA */
+.ia-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:4rem;}
+.ia-header{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.25rem;}
+.ia-badge{font-size:0.68rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;padding:4px 10px;border-radius:2px;}
+.badge-before{background:#f2ede7;color:var(--mid);}
+.badge-after{background:#fff3ea;color:var(--accent);}
+.ia-tree{border:1.5px solid var(--ink);background:var(--white);padding:1.5rem;}
+.ia-home{font-family:var(--serif);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1.5px solid var(--light);}
+.ia-children{display:flex;flex-direction:column;gap:0.4rem;padding-left:1rem;border-left:2px solid var(--light);}
+.ia-item{font-size:0.85rem;color:var(--mid);font-weight:400;padding-left:0.5rem;}
+.ia-item.highlight{color:var(--accent);font-weight:500;}
+.ia-note{font-size:0.78rem;color:var(--mid);font-weight:300;margin-top:1rem;line-height:1.6;font-style:italic;}
+
+/* PROCESS */
+.process-steps{display:grid;grid-template-columns:repeat(5,1fr);margin-top:4rem;border:1.5px solid var(--ink);}
+.process-step{padding:2rem 1.5rem;border-right:1.5px solid var(--ink);display:flex;flex-direction:column;gap:0.5rem;}
+.process-step:last-child{border-right:none;}
+.ps-num{font-family:var(--serif);font-size:3rem;font-weight:800;color:var(--light);line-height:1;}
+.ps-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);}
+.ps-desc{font-size:0.8rem;color:var(--mid);font-weight:300;line-height:1.65;}
+.ps-bar{height:2px;background:var(--accent);width:28px;margin-top:0.5rem;}
+
+/* OUTCOMES */
+.outcomes-section{background:var(--accent);}
+.outcomes-section .section-title,.outcomes-section .section-label{color:var(--paper);}
+.outcomes-section .section-label{color:rgba(246,242,235,0.65);}
+.outcomes-section .section-label::before{background:var(--paper);}
+.outcomes-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:4rem;border:1.5px solid rgba(246,242,235,0.3);}
+.outcome-item{padding:2.5rem 2rem;border-right:1.5px solid rgba(246,242,235,0.3);display:flex;flex-direction:column;gap:0.35rem;}
+.outcome-item:last-child{border-right:none;}
+.outcome-num{font-family:var(--serif);font-size:3.5rem;font-weight:800;color:var(--paper);line-height:1;}
+.outcome-label{font-size:0.88rem;color:rgba(246,242,235,0.75);font-weight:300;}
+.outcome-delta{font-size:0.72rem;background:rgba(246,242,235,0.18);color:var(--paper);padding:2px 8px;border-radius:2px;width:fit-content;margin-top:0.2rem;}
+
+/* LEARNINGS */
+.learnings-list{margin-top:4rem;display:flex;flex-direction:column;}
+.learning-item{display:grid;grid-template-columns:56px 1fr;align-items:start;gap:2rem;padding:2rem 0;border-top:1.5px solid var(--ink);}
+.learning-item:last-child{border-bottom:1.5px solid var(--ink);}
+.learning-idx{font-family:var(--serif);font-size:2.2rem;font-weight:800;color:var(--light);line-height:1;}
+.learning-title{font-family:var(--serif);font-size:1.15rem;font-weight:800;color:var(--ink);margin-bottom:0.35rem;}
+.learning-text{font-size:0.92rem;color:var(--mid);font-weight:300;line-height:1.8;}
+
+/* FOOTER */
+footer{background:var(--ink);padding:3.5rem 4rem;display:flex;justify-content:space-between;align-items:center;}
+.footer-name{font-family:var(--serif);font-size:1.3rem;font-weight:800;color:var(--paper);letter-spacing:-0.02em;}
+.footer-sub{font-size:0.82rem;color:rgba(246,242,235,0.35);margin-top:0.3rem;}
+.footer-links{display:flex;gap:2rem;}
+.footer-link{font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,235,0.45);text-decoration:none;transition:color 0.2s;}
+.footer-link:hover{color:var(--gold);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .about-grid,.hero,.overview-grid,.ia-grid,.research-grid{grid-template-columns:1fr;}
+  .about-left{padding:3rem 1.5rem;border-right:none;border-bottom:1.5px solid var(--ink);}
+  .about-right{padding:3rem 1.5rem;}
+  .hero-left{padding:3rem 1.5rem;}
+  .hero-right{min-height:280px;padding:2rem 1.5rem;}
+  .hero-bg-word{font-size:7rem;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .section-inner{padding:4rem 1.5rem;}
+  .affinity-strip{grid-template-columns:1fr 1fr;}
+  .aff-item{border-bottom:1.5px solid var(--ink);}
+  .quotes-grid{grid-template-columns:1fr;}
+  .decisions-grid{grid-template-columns:1fr 1fr;}
+  .process-steps{grid-template-columns:1fr 1fr;}
+  .outcomes-grid{grid-template-columns:1fr;}
+  .outcome-item{border-right:none;border-bottom:1.5px solid rgba(246,242,235,0.3);}
+  footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2.5rem 1.5rem;}
+  .footer-links{flex-wrap:wrap;justify-content:center;}
+  .learning-item{grid-template-columns:40px 1fr;gap:1rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Your Name ↗</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#outcomes">Outcomes</a></li>
+    <li><a href="mailto:you@email.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="about-grid">
+    <div class="about-left">
+      <div class="about-name">I turn messy<br/>ideas into<br/><span>clear</span> experiences.</div>
+      <p class="about-bio">
+        I'm a UX designer <strong>curious about how people think, how they make decisions, and how design can quietly make life easier.</strong> Currently exploring the intersection of research, storytelling, and interface design — one project at a time.
+      </p>
+      <div class="about-philosophy">
+        <p>Good design should feel invisible — it removes friction before the user ever notices it was there.</p>
+        <span>Design philosophy</span>
+      </div>
+      <div class="about-scroll">Scroll down to see how I design</div>
+    </div>
+    <div class="about-right">
+      <div class="about-big-text">UX<br/><em>Research</em><br/>&amp; Design</div>
+      <div>
+        <div class="about-skills-label">What I work with</div>
+        <div class="about-skills">
+          <span class="skill-chip">User Research</span>
+          <span class="skill-chip">Information Architecture</span>
+          <span class="skill-chip">Interaction Design</span>
+          <span class="skill-chip">Prototyping</span>
+          <span class="skill-chip">Usability Testing</span>
+          <span class="skill-chip">Figma</span>
+          <span class="skill-chip">Storytelling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>UX Case Study · Website Redesign</span>
+    <h1 class="hero-title">Redesigning<br/>Manipur<br/><em>Tourism</em></h1>
+    <p class="hero-desc">Travellers couldn't plan a trip to Manipur with confidence. The website informed but never guided. This is the story of how research, IA restructuring, and a clear "Plan Your Trip" flow changed that.</p>
+    <div class="hero-tags">
+      <span class="tag">UX Research</span>
+      <span class="tag">Information Architecture</span>
+      <span class="tag">Interaction Design</span>
+      <span class="tag">Prototyping</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#overview" class="btn-primary">Read Case Study</a>
+      <a href="#outcomes" class="btn-ghost">Jump to Outcomes →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-word">NE</div>
+    <div class="hero-quote-block">
+      <div class="hq">"If they make it from the angle of a person designing their itinerary, it would make the job <em>very easy.</em>"</div>
+      <div class="hq-src">— User interview, participant</div>
+    </div>
+    <div class="hero-problem">
+      <div class="hp-label">Problem Statement</div>
+      <div class="hp-text">Travellers interested in Manipur struggle to discover reliable, inspiring, and up-to-date information about destinations, culture, safety, and itineraries — leading to low engagement and reduced tourism interest.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><div class="stat-num">4 wks</div><div class="stat-label">Project Duration</div></div>
+  <div class="stat-item"><div class="stat-num">5+5</div><div class="stat-label">Users Interviewed + Tested</div></div>
+  <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Competitor Sites Analysed</div></div>
+  <div class="stat-item"><div class="stat-num">&lt;15</div><div class="stat-label">Min Goal: Plan a Full Trip</div></div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="section-label">01 — Overview</div>
+    <h2 class="section-title">The current site informs — but never guides</h2>
+    <div class="overview-grid">
+      <div class="overview-text">
+        <p>The Manipur Tourism website had a fundamental mismatch between what users needed and what it offered. Travellers — especially first-timers — came looking for help planning a trip: itineraries, transport, safety, permits. What they found was a passive information archive, structured around government categories rather than human journeys.</p>
+        <p>My goal was to understand where and why the experience broke down, then redesign it around a single clear product strategy: help travellers plan and execute a memorable trip to Manipur in under 15 minutes.</p>
+      </div>
+      <div class="overview-meta">
+        <div class="meta-item"><div class="meta-key">My Role</div><div class="meta-val">Solo UX Designer — Research, IA, Wireframing, Hi-Fi Prototype</div></div>
+        <div class="meta-item"><div class="meta-key">Methods</div><div class="meta-val">Competitive Analysis · User Interviews · Affinity Mapping · Usability Testing</div></div>
+        <div class="meta-item"><div class="meta-key">Tools</div><div class="meta-val">Figma · FigJam</div></div>
+        <div class="meta-item"><div class="meta-key">Duration</div><div class="meta-val">4 weeks · 2024</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-inner">
+    <div class="section-label">02 — Research</div>
+    <h2 class="section-title">Two lenses: what works elsewhere, what users actually need</h2>
+    <div class="research-grid">
+      <div class="research-card rc-orange">
+        <div class="rc-label">Competitive Analysis</div>
+        <div class="rc-title">Four benchmarks, one clear gap</div>
+        <div class="rc-text">I analysed Kerala, Meghalaya, Rajasthan and Incredible India tourism websites — evaluated on navigation clarity, homepage engagement, trip planning support, trust signals, and mobile responsiveness.</div>
+        <ul class="rc-list">
+          <li>Kerala, Meghalaya and Rajasthan all feature a prominent "Plan Your Trip" CTA on clean, visual homepages</li>
+          <li>Meghalaya's regional imagery creates authentic emotional connection — a direct parallel for Manipur</li>
+          <li>Incredible India excels at inspiring but lacks region-specific depth — making strong state websites essential</li>
+          <li>Manipur had no structured planning flow and buried trust-critical info like safety and permits</li>
+        </ul>
+      </div>
+      <div class="research-card rc-gold">
+        <div class="rc-label">User Interviews — 5 Travellers</div>
+        <div class="rc-title">Not a discovery problem. A planning problem.</div>
+        <div class="rc-text">Most travellers discovered Manipur through word of mouth. The website's job wasn't inspiration — it was conversion: turning interest into a confident, booked trip. Three themes dominated every interview.</div>
+        <ul class="rc-list">
+          <li>Planning felt overwhelming without a structured itinerary scaffold</li>
+          <li>Missing transport details and upfront costs created a "go/no-go" hesitation</li>
+          <li>Safety and accessibility info strongly affects decision-making — especially for first-timers</li>
+          <li>Mobile is the primary browsing device — the current site was broken on mobile</li>
+          <li>Static, text-heavy pages felt outdated and untrustworthy</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYNTHESIS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">03 — Synthesis</div>
+    <h2 class="section-title">Five themes that shaped every design decision</h2>
+    <div class="affinity-strip">
+      <div class="aff-item">
+        <div class="aff-icon" style="background:#fff3ea;">🗺</div>
+        <div class="aff-title">Ready Itineraries</div>
+        <div class="aff-desc">Travellers want a starting template to customise — not a blank canvas to fill.</div>
+      </div>
+      <div class="aff-item">
+        <div class="aff-icon" style="background:#fdf4e3;">🚌</div>
+        <div class="aff-title">Transport Confusion</div>
+        <div class="aff-desc">No clear path from arrival to destination. "If no path is shown, it becomes a go/no-go discussion."</div>
+      </div>
+      <div class="aff-item">
+        <div class="aff-icon" style="background:#f2ede7;">🛡</div>
+        <div class="aff-title">Safety & Trust</div>
+        <div class="aff-desc">Users rely on official sites for safety and permits. Absent or stale info destroys credibility.</div>
+      </div>
+      <div class="aff-item">
+        <div class="aff-icon" style="background:#eef6f1;">🖼</div>
+        <div class="aff-title">Visuals & Content</div>
+        <div class="aff-desc">Images and authentic raw content drive decisions more than polished marketing copy.</div>
+      </div>
+      <div class="aff-item">
+        <div class="aff-icon" style="background:#f0eeff;">📱</div>
+        <div class="aff-title">Mobile-First</div>
+        <div class="aff-desc">Mobile is the primary research device. The current site was confusing and misaligned on mobile.</div>
+      </div>
+    </div>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">It's nice to have a layout and then customise it accordingly… a skeletal itinerary would be a good idea.</div>
+        <span class="quote-category qc-plan">Itinerary Planning</span>
+      </div>
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">If the website is just giving formal information… you feel it was made years ago and never updated.</div>
+        <span class="quote-category qc-trust">Trust</span>
+      </div>
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">If there are no images or interactive things, I quit and go to another website.</div>
+        <span class="quote-category qc-visual">Visuals</span>
+      </div>
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">I'm okay to pay a certain amount, but tell me upfront… I don't like surprises.</div>
+        <span class="quote-category qc-trust">Trust & Transparency</span>
+      </div>
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">If I had to plan a trip as an international tourist, I don't feel the website has enough information to actually plan it.</div>
+        <span class="quote-category qc-plan">Planning Gap</span>
+      </div>
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">Raw videos and blogs feel better than fancy marketing.</div>
+        <span class="quote-category qc-visual">Authentic Content</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN DECISIONS -->
+<section id="design" class="decisions-section">
+  <div class="section-inner">
+    <div class="section-label">04 — Design Decisions</div>
+    <h2 class="section-title" style="color:var(--paper);">Every insight mapped to a concrete solution</h2>
+    <div class="decisions-grid">
+      <div class="decision-item">
+        <div class="di-insight">Planning feels overwhelming without structure or a starting point</div>
+        <span class="di-arrow">↓</span>
+        <div class="di-decision">Introduced a "Plan Your Trip" flow as the primary homepage CTA</div>
+      </div>
+      <div class="decision-item">
+        <div class="di-insight">Visuals and authentic content drive the decision to travel</div>
+        <span class="di-arrow">↓</span>
+        <div class="di-decision">Large, destination image-led cards with real photography as primary navigation</div>
+      </div>
+      <div class="decision-item">
+        <div class="di-insight">Missing transport details and hidden costs cause drop-off</div>
+        <span class="di-arrow">↓</span>
+        <div class="di-decision">Added transport details and estimated costs directly inside the itinerary output</div>
+      </div>
+      <div class="decision-item">
+        <div class="di-insight">Safety and permit information is buried — creating anxiety and hesitation</div>
+        <span class="di-arrow">↓</span>
+        <div class="di-decision">Surfaced a visible Safety & Permits section early in the planning journey</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IA -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">05 — Information Architecture</div>
+    <h2 class="section-title">Restructured around planning, not passive browsing</h2>
+    <div class="ia-grid">
+      <div>
+        <div class="ia-header"><span class="ia-badge badge-before">Before</span> Original structure</div>
+        <div class="ia-tree">
+          <div class="ia-home">HOME</div>
+          <div class="ia-children">
+            <div class="ia-item">About</div>
+            <div class="ia-item">Accommodation</div>
+            <div class="ia-item">Culture</div>
+            <div class="ia-item">Destinations</div>
+            <div class="ia-item">Festivals</div>
+          </div>
+        </div>
+        <div class="ia-note">Prioritises information categories over user goals. Safety, permits and transport are invisible. No clear path from landing to planning.</div>
+      </div>
+      <div>
+        <div class="ia-header"><span class="ia-badge badge-after">After</span> Redesigned structure</div>
+        <div class="ia-tree">
+          <div class="ia-home">HOME</div>
+          <div class="ia-children">
+            <div class="ia-item highlight">Plan Your Trip → Suggested / DIY Itinerary · Best Time to Visit · Where to Stay</div>
+            <div class="ia-item">Explore → Destinations · Cities · Heritage · Natural Wonders</div>
+            <div class="ia-item">Experiences → Festivals · Culture · Eco-Tourism · Adventure</div>
+            <div class="ia-item highlight">Travel Essentials → Safety & Permits · Getting There · Emergency Contact</div>
+          </div>
+        </div>
+        <div class="ia-note">Planning is the primary entry point. Trust-building surfaces early. Navigation depth reduced for mobile-first browsing. Structure mirrors how a traveller actually thinks.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">06 — Design Process</div>
+    <h2 class="section-title">From lo-fi flow to tested hi-fi prototype</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="ps-num">01</div>
+        <div class="ps-title">Lo-Fi Wireframes</div>
+        <div class="ps-desc">Sketched the 4-screen planning flow: home → duration & traveller type → interests → itinerary output.</div>
+        <div class="ps-bar"></div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">02</div>
+        <div class="ps-title">Planning Flow</div>
+        <div class="ps-desc">Combined duration and traveller type into one screen to minimise steps and reduce multi-screen fatigue.</div>
+        <div class="ps-bar"></div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">03</div>
+        <div class="ps-title">Hi-Fi Prototype</div>
+        <div class="ps-desc">Designed a visual homepage with "Plan My Trip" CTA, interest selection, and a day-wise itinerary result screen.</div>
+        <div class="ps-bar"></div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">04</div>
+        <div class="ps-title">Usability Testing</div>
+        <div class="ps-desc">Tested with 5 new users. Core concept validated. Itinerary output with download and share options well received.</div>
+        <div class="ps-bar"></div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">05</div>
+        <div class="ps-title">Iteration</div>
+        <div class="ps-desc">Refined based on findings. Added "View Accommodation" as a next-step from the itinerary to extend the journey.</div>
+        <div class="ps-bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section id="outcomes" class="outcomes-section">
+  <div class="section-inner">
+    <div class="section-label">07 — Outcomes</div>
+    <h2 class="section-title" style="color:var(--paper);">Validated by users, ready to build on</h2>
+    <div class="outcomes-grid">
+      <div class="outcome-item">
+        <div class="outcome-num">5/5</div>
+        <div class="outcome-label">Users validated the core planning concept</div>
+        <div class="outcome-delta">All found the flow intuitive</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-num">&lt;15</div>
+        <div class="outcome-label">Minutes to plan a full trip — product goal met</div>
+        <div class="outcome-delta">Down from hours of scattered research</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-num">4→1</div>
+        <div class="outcome-label">Navigation depth reduced for mobile clarity</div>
+        <div class="outcome-delta">Flat IA vs nested legacy structure</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARNINGS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">08 — Learnings & Next Steps</div>
+    <h2 class="section-title">What this project taught me</h2>
+    <div class="learnings-list">
+      <div class="learning-item">
+        <div class="learning-idx">01</div>
+        <div>
+          <div class="learning-title">Simplicity is the design decision</div>
+          <div class="learning-text">The biggest insight from 4 weeks of work: too many steps or complications drive users away. Every screen I cut, every field I merged, and every label I simplified made the flow measurably better in testing. Restraint is a skill.</div>
+        </div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-idx">02</div>
+        <div>
+          <div class="learning-title">Trust is a UX problem, not just a content problem</div>
+          <div class="learning-text">Users didn't distrust Manipur — they distrusted the website. Surfacing safety, permits and updated content early in the journey is an architectural decision, not just a copywriting one. Where you put information signals how much you respect the user's anxiety.</div>
+        </div>
+      </div>
+      <div class="learning-item">
+        <div class="learning-idx">03</div>
+        <div>
+          <div class="learning-title">Next steps: personalisation, transport depth, and regional authenticity</div>
+          <div class="learning-text">The path is correct — but there's a long way to go. Next iterations would deepen transport details with estimated costs, add authentic visual storytelling (local vlogs and blogs), and test the experience with international visitors who face a higher planning barrier.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Your Name</div>
+    <div class="footer-sub">UX Designer · Open to opportunities</div>
+  </div>
+  <div class="footer-links">
+    <a href="mailto:you@email.com" class="footer-link">Email</a>
+    <a href="https://linkedin.com" class="footer-link">LinkedIn</a>
+    <a href="https://dribbble.com" class="footer-link">Dribbble</a>
+    <a href="#" class="footer-link">Back to top ↑</a>
+  </div>
+</footer>
+
+</body>
+</html>
